@@ -1,56 +1,38 @@
-import { FC } from "react";
+import React, { FC, useState } from "react";
+import { useNavigate } from 'react-router-dom';
 import { Logo } from "@/widgets";
 import Menu from "../Menu/Menu";
 
 const LayoutHeader: FC = () => {
+  const [dropdownVisible, setDropdownVisible] = useState(false);
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    navigate("/login");
+  };
+
   return (
     <>
       <header>
-        <nav className="navbar bg-base-100">
-          <Menu
-            links={[
-              { name: "Homepage", href: "/" },
-              { name: "Portfolio", href: "/portfolio" },
-              { name: "About", href: "/about" },
-            ]}
-          />
-          <Logo logoName={"daisyUI"} />
-          <div className="navbar-end">
-            <button className="btn-ghost btn-circle btn">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                />
-              </svg>
+        <nav className="flex p-2 justify-between items-center bg-blue-700">
+          <div className="py-1 text-2xl text-white">
+            Dashboard
+          </div>
+          <div className="py-1 relative">
+            <button className="btn-ghost btn-circle btn" onClick={() => setDropdownVisible(!dropdownVisible)}>
+            <svg className="svg-icon" style={{width: "2em", height: "2em", verticalAlign: "middle", fill: "currentColor", overflow: "hidden"}} viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"><path d="M843.282963 870.115556c-8.438519-140.515556-104.296296-257.422222-233.908148-297.14963C687.881481 536.272593 742.4 456.533333 742.4 364.088889c0-127.241481-103.158519-230.4-230.4-230.4S281.6 236.847407 281.6 364.088889c0 92.444444 54.518519 172.183704 133.12 208.877037-129.611852 39.727407-225.46963 156.634074-233.908148 297.14963-0.663704 10.903704 7.964444 20.195556 18.962963 20.195556l0 0c9.955556 0 18.299259-7.774815 18.962963-17.73037C227.745185 718.506667 355.65037 596.385185 512 596.385185s284.254815 122.121481 293.357037 276.195556c0.568889 9.955556 8.912593 17.73037 18.962963 17.73037C835.318519 890.311111 843.946667 881.019259 843.282963 870.115556zM319.525926 364.088889c0-106.287407 86.186667-192.474074 192.474074-192.474074s192.474074 86.186667 192.474074 192.474074c0 106.287407-86.186667 192.474074-192.474074 192.474074S319.525926 470.376296 319.525926 364.088889z"  /></svg>
             </button>
-            <button className="btn-ghost btn-circle btn">
-              <div className="indicator">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
+            {dropdownVisible && (
+              <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-20">
+                <button
+                  onClick={handleLogout}
+                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full text-left"
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
-                  />
-                </svg>
-                <span className="badge badge-primary badge-xs indicator-item"></span>
+                  Logout
+                </button>
               </div>
-            </button>
+            )}
           </div>
         </nav>
       </header>

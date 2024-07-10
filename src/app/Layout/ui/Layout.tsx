@@ -9,7 +9,6 @@ const Layout: FC = () => {
       <main>
         <Outlet />
       </main>
-      <LayoutFooter />
     </div>
   );
 };
